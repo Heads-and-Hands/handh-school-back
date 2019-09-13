@@ -15,6 +15,8 @@ func InitAdmin() *http.ServeMux {
 	Admin := admin.New(&admin.AdminConfig{DB: DB})
 	Admin.AddResource(&models.Request{})
 
+	&
+
 	m := http.NewServeMux()
 	Admin.MountTo("/admin", m)
 	return m
