@@ -1,6 +1,7 @@
 package myAdminConf
 
 import (
+	"github.com/qor/roles"
 	"net/http"
 	_ "github.com/go-sql-driver/mysql"
 	"handh-school-back/models"
@@ -16,8 +17,8 @@ func InitAdmin() *http.ServeMux {
 
 	Admin := admin.New(&admin.AdminConfig{DB: DB})
 	reqRes := Admin.AddResource(&models.Request{}, &admin.Config{
-		Name:       "Заявки",
-		Menu:       []string{"Заявки"},
+		Name:       "Новосибирск",
+		Menu:       []string{"Школа разработчиков"},
 	})
 
 	reqRes.Meta(&admin.Meta{Name: "Name", Valuer: func(record interface{}, context *qor.Context) interface{} {
@@ -35,12 +36,13 @@ func InitAdmin() *http.ServeMux {
 	reqRes.Meta(&admin.Meta{
 		Name: "Direction",
 		Label: "Направление",
+		Permission: roles.Deny(roles.Delete, roles.Anyone).Deny(roles.Create, roles.Anyone).Deny(roles.Update, roles.Anyone).Allow(roles.Read, roles.Anyone),
 		Config: &admin.SelectOneConfig{Collection: []string{
 			"iOS", "Android", "Frontend", "Backend (Java)",
 		}}})
 
 	reqRes.IndexAttrs("-Id", "-Surname", "-Education", "-Why", "-Link")
-
+	reqRes.EditAttrs("-Id", "-Surname")
 	reqRes.Scope(&admin.Scope{Name: "iOS", Group:"Направление", Handler: func(db *gorm.DB, context *qor.Context) *gorm.DB {
 		return db.Where("Direction like ?", "iOS")
 	}})
