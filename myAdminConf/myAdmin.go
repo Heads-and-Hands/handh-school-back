@@ -1,14 +1,16 @@
 package myAdminConf
 
 import (
-	"github.com/qor/roles"
-	"net/http"
 	_ "github.com/go-sql-driver/mysql"
-	"handh-school-back/models"
-	"handh-school-back/database"
-	"github.com/qor/admin"
 	"github.com/jinzhu/gorm"
+	"github.com/qor/admin"
 	"github.com/qor/qor"
+	"github.com/qor/roles"
+	"handh-school-back/database"
+	"handh-school-back/models"
+	"net/http"
+
+	"handh-school-back/config/bindatafs"
 )
 
 func InitAdmin() *http.ServeMux {
@@ -16,8 +18,12 @@ func InitAdmin() *http.ServeMux {
 	DB.AutoMigrate(&models.Request{})
 
 	Admin := admin.New(&admin.AdminConfig{DB: DB})
+
+	Admin.SetAssetFS(bindatafs.AssetFS.NameSpace("admin"))
+	bindatafs.AssetFS.Compile()
+
 	reqRes := Admin.AddResource(&models.Request{}, &admin.Config{
-		Name:       "Новосибирск",
+		Name:       "Студенты",
 		Menu:       []string{"Школа разработчиков"},
 	})
 

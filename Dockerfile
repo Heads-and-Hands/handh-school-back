@@ -1,14 +1,19 @@
-FROM golang
+FROM golang:1.15 AS builder
 
-RUN go get -u github.com/go-sql-driver/mysql
-RUN go get -u github.com/gorilla/mux
-RUN go get -u github.com/jinzhu/gorm
-RUN go get -u github.com/qor/qor
-RUN go get -u github.com/qor/admin
-RUN go get -u github.com/mitchellh/panicwrap
+WORKDIR /app
 
-ADD . /go/src/handh-school-back
-RUN go install handh-school-back
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -tags bindatafs -o main .
 
-ENTRYPOINT /go/bin/handh-school-back
+FROM alpine:3.9
+
+RUN adduser -D -g '' appuser
+USER appuser
+
+WORKDIR /home/appuser
+COPY --from=builder /app/main .
+
+CMD ["./main"]
 

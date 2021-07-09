@@ -1,14 +1,17 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
-	_ "github.com/go-sql-driver/mysql"
-	"handh-school-back/handlers"
-	"net/http"
-	"handh-school-back/myAdminConf"
-	"strings"
 	"encoding/base64"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/mux"
 	"handh-school-back/config"
+	"handh-school-back/handlers"
+
+	_ "handh-school-back/config/bindatafs"
+	"handh-school-back/myAdminConf"
+
+	"net/http"
+	"strings"
 )
 
 func main() {
