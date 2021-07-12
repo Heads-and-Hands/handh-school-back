@@ -6,11 +6,11 @@
 
   **Build**
   ```bigquery
-docker buildx build --platform linux/amd64 -t registry.ru/handh-school/back-amd:latest --push .
+  docker buildx build --platform linux/amd64 -t registry.ru/handh-school/back-amd:latest --push .
   ```
   
   **Deploy**
-  ````
+  ```
   backend:
     image: registry.ru/handh-school/back:latest
     networks:
@@ -27,4 +27,8 @@ docker buildx build --platform linux/amd64 -t registry.ru/handh-school/back-amd:
       AUTH_PASSWORD: "password"
     depends_on:
       - database
+  ```    
       
+  **PS**
+
+  After first deploy run ```ALTER TABLE requests CONVERT TO CHARACTER SET utf8;``` in database container for correct support russian symbols
