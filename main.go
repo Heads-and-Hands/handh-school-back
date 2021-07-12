@@ -6,9 +6,9 @@ import (
 	"github.com/gorilla/mux"
 	"handh-school-back/config"
 	"handh-school-back/handlers"
-
-	_ "handh-school-back/config/bindatafs"
 	"handh-school-back/myAdminConf"
+
+	_ "handh-school-back/bindatafs"
 
 	"net/http"
 	"strings"
@@ -18,11 +18,12 @@ func main() {
 	println("Hello, school on 7771 port!")
 
 	r := mux.NewRouter()
-	r.Handle("/", handlers.GetHandler).Methods("GET")
-	r.Handle("/", handlers.PostHandler).Methods("POST")
 
 	m := myAdminConf.InitAdmin()
 	r.PathPrefix("/admin").Handler(m)
+
+	r.Handle("/", handlers.GetHandler).Methods("GET")
+	r.Handle("/", handlers.PostHandler).Methods("POST")
 
 	r.Use(Middleware)
 

@@ -1,8 +1,18 @@
+  **Prepare**
+  - Run ```bindatafs bindatafs```       
+  - Make ```go run main.go``` without params with Compile() function after SetAssetFS() in myAdmin.go
+  - ```go build -tags bindatafs main.go``` for build project
+  - ```go run```
+
+  **Build**
+  ```bigquery
+docker buildx build --platform linux/amd64 -t registry.ru/handh-school/back-amd:latest --push .
+  ```
   
-  
+  **Deploy**
   ````
   backend:
-    image: registry./handh-school/back:latest
+    image: registry.ru/handh-school/back:latest
     networks:
       - default
     ports:

@@ -1,6 +1,8 @@
 package myAdminConf
 
 import (
+	"handh-school-back/bindatafs"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/qor/admin"
@@ -9,8 +11,6 @@ import (
 	"handh-school-back/database"
 	"handh-school-back/models"
 	"net/http"
-
-	"handh-school-back/config/bindatafs"
 )
 
 func InitAdmin() *http.ServeMux {
@@ -18,9 +18,8 @@ func InitAdmin() *http.ServeMux {
 	DB.AutoMigrate(&models.Request{})
 
 	Admin := admin.New(&admin.AdminConfig{DB: DB})
-
 	Admin.SetAssetFS(bindatafs.AssetFS.NameSpace("admin"))
-	bindatafs.AssetFS.Compile()
+	//bindatafs.AssetFS.Compile()
 
 	reqRes := Admin.AddResource(&models.Request{}, &admin.Config{
 		Name:       "Студенты",
@@ -44,7 +43,7 @@ func InitAdmin() *http.ServeMux {
 		Label: "Направление",
 		Permission: roles.Deny(roles.Delete, roles.Anyone).Deny(roles.Create, roles.Anyone).Deny(roles.Update, roles.Anyone).Allow(roles.Read, roles.Anyone),
 		Config: &admin.SelectOneConfig{Collection: []string{
-			"iOS", "Android", "Frontend", "Backend (Java)",
+			"iOS", "Android", "Frontend", "Backend (Java)", "QA",
 		}}})
 
 	reqRes.IndexAttrs("-Id", "-Surname", "-Education", "-Why", "-Link")
@@ -60,6 +59,9 @@ func InitAdmin() *http.ServeMux {
 	}})
 	reqRes.Scope(&admin.Scope{Name: "Backend (Java)", Group:"Направление", Handler: func(db *gorm.DB, context *qor.Context) *gorm.DB {
 		return db.Where("Direction like ?", "Backend (Java)")
+	}})
+	reqRes.Scope(&admin.Scope{Name: "QA", Group:"Направление", Handler: func(db *gorm.DB, context *qor.Context) *gorm.DB {
+		return db.Where("Direction like ?", "QA")
 	}})
 
 	m := http.NewServeMux()
