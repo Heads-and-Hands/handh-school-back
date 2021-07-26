@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/base64"
+	"crypto/subtle"
 
 	"github.com/Heads-and-Hands/handh-school-back/config"
 	"github.com/Heads-and-Hands/handh-school-back/handlers"
@@ -12,7 +12,6 @@ import (
 	_ "github.com/Heads-and-Hands/handh-school-back/bindatafs"
 
 	"net/http"
-	"strings"
 )
 
 func main() {
@@ -26,17 +25,18 @@ func main() {
 	r.Handle("/", handlers.GetHandler).Methods("GET")
 	r.Handle("/", handlers.PostHandler).Methods("POST")
 
-	r.Use(Middleware)
+	r.Use(AuthMiddleware)
 
 	http.ListenAndServe(":7771", r)
 }
 
-func Middleware(next http.Handler) http.Handler {
+func AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if !basicAuth(w, r) {
 			w.Header().Set("WWW-Authenticate", `Basic realm="Beware! Protected REALM! "`)
-			w.WriteHeader(401)
+			w.WriteHeader(http.StatusUnauthorized)
 			w.Write([]byte("401 Unauthorized\n"))
+			return
 		}
 		next.ServeHTTP(w, r)
 	})
@@ -47,19 +47,11 @@ func basicAuth(_ http.ResponseWriter, r *http.Request) bool {
 		return true
 	}
 
-	realPair := []string{config.User, config.Password}
-	s := strings.SplitN(r.Header.Get("Authorization"), " ", 2)
-	if len(s) != 2 {
-		return false
-	}
-	b, err := base64.StdEncoding.DecodeString(s[1])
-	if err != nil {
-		return false
-	}
-	pair := strings.SplitN(string(b), ":", 2)
-	if len(pair) != 2 {
+	user, pwd, ok := r.BasicAuth()
+	if !ok {
 		return false
 	}
 
-	return pair[0] == realPair[0] && pair[1] == realPair[1]
+	return subtle.ConstantTimeCompare([]byte(user), []byte(config.User)) == 1 &&
+		subtle.ConstantTimeCompare([]byte(pwd), []byte(config.Password)) == 1
 }
