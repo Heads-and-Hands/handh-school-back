@@ -52,6 +52,7 @@ func basicAuth(_ http.ResponseWriter, r *http.Request) bool {
 		return false
 	}
 
-	return subtle.ConstantTimeCompare([]byte(user), []byte(config.User)) == 1 &&
-		subtle.ConstantTimeCompare([]byte(pwd), []byte(config.Password)) == 1
+	userMatch := subtle.ConstantTimeCompare([]byte(user), []byte(config.User)) == 1
+	passwordMatch := subtle.ConstantTimeCompare([]byte(pwd), []byte(config.Password)) == 1
+	return userMatch && passwordMatch
 }
