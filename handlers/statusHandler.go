@@ -1,10 +1,11 @@
 package handlers
 
 import (
-	"net/http"
 	"encoding/json"
-	"handh-school-back/database"
-	"handh-school-back/models"
+	"net/http"
+
+	"github.com/Heads-and-Hands/handh-school-back/database"
+	"github.com/Heads-and-Hands/handh-school-back/models"
 )
 
 var GetHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -31,4 +32,3 @@ var PostHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) 
 	w.Header().Add("Content-Type", "application/json")
 	w.Write(payload)
 })
-

@@ -3,12 +3,12 @@ package myAdminConf
 import (
 	"github.com/Heads-and-Hands/handh-school-back/bindatafs"
 
-	"handh-school-back/models"
 	"net/http"
+
+	"github.com/Heads-and-Hands/handh-school-back/models"
 
 	"github.com/Heads-and-Hands/handh-school-back/database"
 
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/qor/admin"
 	"github.com/qor/qor"

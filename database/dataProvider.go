@@ -7,6 +7,7 @@ import (
 	"github.com/Heads-and-Hands/handh-school-back/models"
 
 	"github.com/Heads-and-Hands/handh-school-back/config"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 )
 
