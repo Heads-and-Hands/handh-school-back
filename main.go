@@ -2,13 +2,14 @@ package main
 
 import (
 	"encoding/base64"
+
+	"github.com/Heads-and-Hands/handh-school-back/config"
+	"github.com/Heads-and-Hands/handh-school-back/handlers"
+	"github.com/Heads-and-Hands/handh-school-back/myAdminConf"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
-	"handh-school-back/config"
-	"handh-school-back/handlers"
-	"handh-school-back/myAdminConf"
 
-	_ "handh-school-back/bindatafs"
+	_ "github.com/Heads-and-Hands/handh-school-back/bindatafs"
 
 	"net/http"
 	"strings"
@@ -30,7 +31,6 @@ func main() {
 	http.ListenAndServe(":7771", r)
 }
 
-
 func Middleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if !basicAuth(w, r) {
@@ -42,7 +42,6 @@ func Middleware(next http.Handler) http.Handler {
 	})
 }
 
-
 func basicAuth(_ http.ResponseWriter, r *http.Request) bool {
 	if r.URL.Path != "/admin" {
 		return true
@@ -50,11 +49,17 @@ func basicAuth(_ http.ResponseWriter, r *http.Request) bool {
 
 	realPair := []string{config.User, config.Password}
 	s := strings.SplitN(r.Header.Get("Authorization"), " ", 2)
-	if len(s) != 2 { return false }
+	if len(s) != 2 {
+		return false
+	}
 	b, err := base64.StdEncoding.DecodeString(s[1])
-	if err != nil {	return false }
+	if err != nil {
+		return false
+	}
 	pair := strings.SplitN(string(b), ":", 2)
-	if len(pair) != 2 {	return false }
+	if len(pair) != 2 {
+		return false
+	}
 
 	return pair[0] == realPair[0] && pair[1] == realPair[1]
 }

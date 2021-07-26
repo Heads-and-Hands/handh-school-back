@@ -1,11 +1,13 @@
 package database
 
 import (
-	"github.com/jinzhu/gorm"
 	"log"
 	"time"
-	"handh-school-back/config"
-	"handh-school-back/models"
+
+	"github.com/Heads-and-Hands/handh-school-back/models"
+
+	"github.com/Heads-and-Hands/handh-school-back/config"
+	"github.com/jinzhu/gorm"
 )
 
 type ormProvider struct {
