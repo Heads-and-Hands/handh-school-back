@@ -19,6 +19,8 @@ services:
       START_DELAY: 10s
       AUTH_USER: "admin"
       AUTH_PASSWORD: "password"
+      DEBUG: 1
+      PORT: "7771"
     depends_on:
       - database
 

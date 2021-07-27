@@ -43,16 +43,16 @@ func getDB() *gorm.DB {
 	return newDb
 }
 
-func (dbp ormProvider) CreateRequest(r models.Request) {
+func (dbp ormProvider) CreateRequest(r models.CreateUserBody) {
 	dbp.db.Create(&r)
 }
 
-func (dbp ormProvider) GetRequests() []models.Request {
-	var requests []models.Request
-	dbp.db.Table(models.Request{}.TableName()).Find(&requests)
+func (dbp ormProvider) GetRequests() []models.CreateUserBody {
+	var requests []models.CreateUserBody
+	dbp.db.Table(models.CreateUserBody{}.TableName()).Find(&requests)
 	return requests
 }
 
-func (dbp ormProvider) UpdateRequest(p *models.Request) {
+func (dbp ormProvider) UpdateRequest(p *models.CreateUserBody) {
 	dbp.db.Save(p)
 }
