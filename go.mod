@@ -1,4 +1,4 @@
-module handh-school-back
+module github.com/Heads-and-Hands/handh-school-back
 
 go 1.16
 
