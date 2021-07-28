@@ -3,12 +3,10 @@ package main
 import (
 	"os"
 
+	_ "github.com/Heads-and-Hands/handh-school-back/bindatafs"
 	"github.com/Heads-and-Hands/handh-school-back/config"
 	"github.com/Heads-and-Hands/handh-school-back/handlers"
 	"github.com/Heads-and-Hands/handh-school-back/myAdminConf"
-	_ "github.com/go-sql-driver/mysql"
-
-	_ "github.com/Heads-and-Hands/handh-school-back/bindatafs"
 	"github.com/gin-gonic/gin"
 )
 

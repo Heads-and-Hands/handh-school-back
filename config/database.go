@@ -14,4 +14,3 @@ func init() {
 }
 
 //var DbString = "root:rootroot@tcp(db:3306)/av-check?parseTime=true"
-

@@ -5,10 +5,9 @@ import (
 	"time"
 
 	"github.com/Heads-and-Hands/handh-school-back/models"
+	"github.com/jinzhu/gorm"
 
 	"github.com/Heads-and-Hands/handh-school-back/config"
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
 )
 
 type ormProvider struct {

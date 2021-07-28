@@ -1,10 +1,9 @@
 package myAdminConf
 
 import (
-	"github.com/Heads-and-Hands/handh-school-back/bindatafs"
-
 	"net/http"
 
+	"github.com/Heads-and-Hands/handh-school-back/bindatafs"
 	"github.com/Heads-and-Hands/handh-school-back/models"
 
 	"github.com/Heads-and-Hands/handh-school-back/database"
