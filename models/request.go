@@ -2,17 +2,17 @@ package models
 
 import "github.com/jinzhu/gorm"
 
-type Request struct {
-	gorm.Model
-	Name 		string 	`json:"first_name"`
-	Surname		string 	`json:"last_name"`
-	Education 	string 	`json:"education"`
-	Email	 	string 	`json:"email"`
-	Why			string 	`json:"reason"`
-	Direction	string  `json:"course"`
-	Link		string  `json:"link"`
+type CreateUserBody struct {
+	gorm.Model `json:"-"`
+	Name       string `json:"first_name" binding:"required"`
+	Surname    string `json:"last_name" binding:"required"`
+	Education  string `json:"education" binding:"required"`
+	Email      string `json:"email" binding:"required,email"`
+	Why        string `json:"reason" binding:"required"`
+	Direction  string `json:"course" binding:"required"`
+	Link       string `json:"link" binding:"required"`
 }
 
-func (Request) TableName() string {
+func (CreateUserBody) TableName() string {
 	return "requests"
 }

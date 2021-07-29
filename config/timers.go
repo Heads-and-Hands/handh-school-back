@@ -1,8 +1,8 @@
 package config
 
 import (
-	"time"
 	"os"
+	"time"
 )
 
 var StartDelay time.Duration

@@ -1,14 +1,13 @@
 package myAdminConf
 
 import (
-	"github.com/Heads-and-Hands/handh-school-back/bindatafs"
-
-	"handh-school-back/models"
 	"net/http"
+
+	"github.com/Heads-and-Hands/handh-school-back/bindatafs"
+	"github.com/Heads-and-Hands/handh-school-back/models"
 
 	"github.com/Heads-and-Hands/handh-school-back/database"
 
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/qor/admin"
 	"github.com/qor/qor"
@@ -17,19 +16,19 @@ import (
 
 func InitAdmin() *http.ServeMux {
 	DB := database.CurrentDb
-	DB.AutoMigrate(&models.Request{})
+	DB.AutoMigrate(&models.CreateUserBody{})
 
 	Admin := admin.New(&admin.AdminConfig{DB: DB})
 	Admin.SetAssetFS(bindatafs.AssetFS.NameSpace("admin"))
 	//bindatafs.AssetFS.Compile()
 
-	reqRes := Admin.AddResource(&models.Request{}, &admin.Config{
+	reqRes := Admin.AddResource(&models.CreateUserBody{}, &admin.Config{
 		Name: "Студенты",
 		Menu: []string{"Школа разработчиков"},
 	})
 
 	reqRes.Meta(&admin.Meta{Name: "Name", Valuer: func(record interface{}, context *qor.Context) interface{} {
-		if p, ok := record.(*models.Request); ok {
+		if p, ok := record.(*models.CreateUserBody); ok {
 			return p.Name + " " + p.Surname
 		}
 		return ""
